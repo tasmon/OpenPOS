@@ -4,6 +4,7 @@ OpenPOS is a free, open source Point-of-Sale (POS) web application you can run f
 
 <img width="1917" height="942" alt="image" src="https://github.com/user-attachments/assets/0032f014-514d-4925-826a-29f7c8be95c7" />
 
+
 <img width="1791" height="985" alt="image" src="https://github.com/user-attachments/assets/cce4b5aa-e0e5-45ec-8185-bfa8b3b82a14" />
 
 
