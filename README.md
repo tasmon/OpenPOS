@@ -30,7 +30,7 @@ While it may encounter errors when hosted on a live web server, you can always m
 - Theme, language and currency selection
 
 ## Quick start
-1. Download or clone the repository and extract the files to a folder.
+1. Download 'OpenPOS App V3.0.0.zip' file or clone the repository and extract the files to a folder. 
 2. Open `index.html` in a modern browser (Chrome/Edge recommended for full features).
 3. On first run create an Admin account. The app will guide you through setup.
 4. To make backups that survive clearing browser data: use Settings → Choose AppData file (or Export Backup). On file:// runs the app will try to load `AppData.json` from the same folder automatically.
