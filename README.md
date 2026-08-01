@@ -12,7 +12,7 @@ OpenPOS is a free, open source Point-of-Sale (POS) web application you can run f
 <img width="1920" height="1000" alt="image" src="https://github.com/user-attachments/assets/66dd01f2-aa4c-4339-b332-fef50de40a5a" />
 
 
-## Auto save (Enable persistent save)
+## ⚠️ Auto save (Enable persistent save) ⚠️
 The auto-save function is optimized and designed for local/offline environments.
 While it may encounter errors when hosted on a live web server, you can always manually manage your data via the following options:
 - Save AppData to file (AppData.json)
