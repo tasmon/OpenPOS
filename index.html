@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b76ef">
+  <title>OpenPOS</title>
+  <link rel="icon" href="icon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="icon.png" alt="icon" class="logo">
+      <h1>OpenPOS</h1>
+    </div>
+    <nav id="main-nav" class="hidden">
+      <button data-page="pos">POS</button>
+      <button data-page="products">Products</button>
+      <button data-page="customers">Customers</button>
+      <button data-page="users">Users</button>
+      <button data-page="reports">Reports</button>
+      <button data-page="settings">Settings</button>
+      <button data-page="help">Help</button>
+      <button data-page="about">About</button>
+    </nav>
+    <div class="auth-area">
+      <div id="user-area" style="display:none">
+      <span id="user-avatar">👤</span>
+      <span id="current-user">—</span>
+      <div id="user-menu" class="dropdown" style="display:none">
+        <button data-action="settings">Settings</button>
+        <button data-action="reset">Reset Password</button>
+        <button data-action="logout">Logout</button>
+      </div>
+      </div>
+      <button id="login-btn">Login</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Welcome / Greeting / onboarding -->
+    <section id="welcome" class="page center">
+      <div class="card">
+        <h2>Welcome to OpenPOS</h2>
+        <p>OpenPOS is a free Open Source POS Software.</p>
+        <div class="actions">
+          <button id="start-setup">Get Started</button>
+          <button id="learn-more">Learn More</button>
+        </div>
+        <p id="learn-more-brief" style="display:none">OpenPOS provides a simple, offline-capable point-of-sale application that runs from a single folder. Click "Learn More" for full details.</p>
+      </div>
+    </section>
+
+    <!-- Login / Create account (gated) -->
+    <section id="auth-gate" class="page center" style="display:none">
+      <div class="card">
+        <h2 id="auth-title">Login</h2>
+        <form id="login-form">
+          <input name="username" placeholder="Username" required>
+          <input name="password" placeholder="Password" type="password" required>
+          <div class="row gap">
+            <button type="submit">Login</button>
+            <button type="button" id="show-create">Create account</button>
+          </div>
+        </form>
+        <div class="muted">Forgot password? <button id="forgot-pw">Reset</button></div>
+      </div>
+    </section>
+
+    <section id="create-account" class="page center" style="display:none">
+      <div class="card">
+        <h2>Create account</h2>
+        <form id="create-form">
+          <input name="username" placeholder="Username" required>
+          <input name="password" placeholder="Password" type="password" required>
+          <select name="role"><option value="admin">Admin</option><option value="manager">Manager</option><option value="cashier">Cashier</option></select>
+          <div id="security-questions">
+            <p>Security questions (used for password reset):</p>
+            <label>1. <select name="q1"><option value="parents_meet">City where parents met</option><option value="childhood_nick">Childhood nickname</option><option value="favourite_cousin">Favourite cousin name</option></select></label>
+            <input name="a1" placeholder="Answer 1" required>
+            <label>2. <select name="q2"><option value="mother_maiden">Mother's maiden name</option><option value="first_school">First school</option><option value="first_pet">First pet name</option></select></label>
+            <input name="a2" placeholder="Answer 2" required>
+            <label>3. <select name="q3"><option value="fav_teacher">Favourite teacher</option><option value="dream_city">Dream city</option><option value="best_friend">Best friend name</option></select></label>
+            <input name="a3" placeholder="Answer 3" required>
+          </div>
+          <div class="row gap"><button type="submit">Create Account</button><button type="button" id="cancel-create">Cancel</button></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- POS page -->
+    <section id="page-pos" class="page" style="display:none">
+      <h2>Checkout</h2>
+      <div class="row">
+        <div class="col">
+          <input id="product-search" placeholder="Search product by name or code">
+          <ul id="product-results" class="list"></ul>
+        </div>
+        <div class="col">
+          <h3>Cart</h3>
+          <ul id="cart-list" class="list"></ul>
+          <div class="cart-actions">
+            <label>Customer: <span id="selected-customer">None</span></label>
+            <button id="select-customer">Select/Add</button>
+            <div class="total">Total: <span id="cart-total">0.00</span></div>
+            <button id="complete-sale">Complete Sale</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products -->
+    <section id="page-products" class="page" style="display:none">
+      <h2>Products</h2>
+      <form id="product-form">
+        <input name="name" placeholder="Name" required>
+        <input name="code" placeholder="SKU/code">
+        <input name="category" placeholder="Category">
+        <input name="price" type="number" step="0.01" placeholder="Price" required>
+        <button type="submit">Add / Update</button>
+      </form>
+      <div class="csv-tools">
+        <button id="import-products-csv">Import Products CSV</button>
+        <a href="products-sample.csv" download>Download sample CSV</a>
+        <input type="file" id="products-csv-file" accept="text/csv" style="display:none">
+      </div>
+      <ul id="products-list" class="list"></ul>
+    </section>
+
+    <!-- Customers -->
+    <section id="page-customers" class="page" style="display:none">
+      <h2>Customers</h2>
+      <form id="customer-form">
+        <input name="name" placeholder="Name" required>
+        <input name="phone" placeholder="Phone">
+        <button type="submit">Add Customer</button>
+      </form>
+      <div class="csv-tools">
+        <button id="import-customers-csv">Import Customers CSV</button>
+        <button id="export-customers-csv">Export Customers CSV</button>
+        <a href="customers-sample.csv" download>Download sample CSV</a>
+        <input type="file" id="customers-csv-file" accept="text/csv" style="display:none">
+      </div>
+      <ul id="customers-list" class="list"></ul>
+    </section>
+
+    <!-- Users -->
+    <section id="page-users" class="page" style="display:none">
+      <h2>Users & Roles</h2>
+      <form id="user-form">
+        <input name="username" placeholder="Username" required>
+        <input name="password" placeholder="Password" type="password" required>
+        <select name="role">
+          <option value="admin">Admin</option>
+          <option value="manager">Manager</option>
+          <option value="cashier">Cashier</option>
+        </select>
+        <button type="submit">Create User</button>
+      </form>
+      <ul id="users-list" class="list"></ul>
+    </section>
+
+    <!-- Reports -->
+    <section id="page-reports" class="page" style="display:none">
+      <h2>Sales & Reports</h2>
+      <label>From: <input type="date" id="report-from"></label>
+      <label>To: <input type="date" id="report-to"></label>
+      <div class="row gap">
+        <button id="generate-report">Generate Report</button>
+        <button id="export-report-csv">Export CSV (Excel)</button>
+        <button id="export-report-pdf">Export PDF</button>
+      </div>
+      <div id="report-preview" style="margin-top:12px"></div>
+    </section>
+
+    <!-- Settings -->
+    <section id="page-settings" class="page" style="display:none">
+      <h2>Settings</h2>
+      <label>Theme: <select id="theme-select"><option value="light">Light</option><option value="dark">Dark</option><option value="solar">Solar</option><option value="forest">Forest</option><option value="cloud">Cloud</option><option value="hc">High contrast</option></select></label>
+      <label>Language: <select id="lang-select">
+          <option value="en">English</option>
+          <option value="bn">Bengali</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="zh-CN">Chinese (Simplified)</option>
+          <option value="zh-TW">Chinese (Traditional)</option>
+          <option value="ar">Arabic</option>
+          <option value="hi">Hindi</option>
+          <option value="ur">Urdu</option>
+          <option value="pt">Portuguese</option>
+          <option value="ru">Russian</option>
+          <option value="id">Indonesian</option>
+          <option value="ms">Malay</option>
+          <option value="ja">Japanese</option>
+          <option value="ko">Korean</option>
+          <option value="tr">Turkish</option>
+          <option value="vi">Vietnamese</option>
+          <option value="it">Italian</option>
+          <option value="pl">Polish</option>
+          <option value="nl">Dutch</option>
+        </select></label>
+      <label>Currency: <select id="currency-select">
+          <option value="USD">USD ($)</option>
+          <option value="EUR">EUR (€)</option>
+          <option value="GBP">GBP (£)</option>
+          <option value="JPY">JPY (¥)</option>
+          <option value="CNY">CNY (¥)</option>
+          <option value="INR">INR (₹)</option>
+          <option value="BDT">BDT (৳)</option>
+          <option value="AUD">AUD (A$)</option>
+          <option value="CAD">CAD (C$)</option>
+          <option value="SGD">SGD (S$)</option>
+          <option value="HKD">HKD (HK$)</option>
+          <option value="KRW">KRW (₩)</option>
+          <option value="RUB">RUB (₽)</option>
+          <option value="BRL">BRL (R$)</option>
+          <option value="ZAR">ZAR (R)</option>
+          <option value="AED">AED (د.إ)</option>
+          <option value="SAR">SAR (﷼)</option>
+          <option value="MXN">MXN ($)</option>
+          <option value="TRY">TRY (₺)</option>
+          <option value="NOK">NOK (kr)</option>
+          <option value="SEK">SEK (kr)</option>
+          <option value="DKK">DKK (kr)</option>
+          <option value="PLN">PLN (zł)</option>
+          <option value="CHF">CHF (CHF)</option>
+        </select></label>
+      <div class="autosave-row">
+        <label class="autosave-label">Auto Save: <input type="checkbox" id="autosave-enable"></label>
+        <label class="autosave-note">Enable persistent save — Interval (minutes): <input id="autosave-interval" type="number" min="1" value="10" style="width:80px"></label>
+      </div>
+      <div>
+        <button id="save-appdata">Save AppData to file (AppData.json)</button>
+        <button id="load-appdata">Load AppData from AppData file</button>
+        <button id="choose-appdata">Choose AppData file (for autosave)</button>
+      </div>
+      <h3>Business / Receipt</h3>
+      <label>Business name: <input id="biz-name" placeholder="Business name"></label>
+      <label>Email: <input id="biz-email" placeholder="email@example.com" type="email"></label>
+      <label>Phone: <input id="biz-phone" placeholder="Phone"></label>
+      <label>Address: <input id="biz-address" placeholder="Address"></label>
+      <label>Logo: <input id="biz-logo-file" type="file" accept="image/*"></label>
+      <div>
+        <button id="export-backup">Export Backup</button>
+        <input type="file" id="import-file" style="display:none">
+        <button id="import-backup">Import Backup</button>
+      </div>
+      <div>
+        <button id="download-recovery">Download Recovery File (password reset)</button>
+      </div>
+    </section>
+
+    <!-- Help -->
+    <section id="page-help" class="page" style="display:none">
+      <h2>Help — User Manual</h2>
+      <div class="card small">
+        <h3>Overview</h3>
+        <p>OpenPOS is a lightweight offline POS. This manual covers setup, day-to-day operations, backups, recovery, and troubleshooting.</p>
+        <h3>Setup</h3>
+        <ol>
+          <li>Open index.html in a modern browser (Chrome, Edge, Firefox). For installable app, host the folder on GitHub Pages so the PWA prompt appears.</li>
+          <li>Click "Get Started" and create the first Admin account. Provide answers to three security questions — these are used for password reset.</li>
+          <li>Open Settings to choose Theme, Language, and Currency. These settings persist across sessions.</li>
+        </ol>
+        <h3>Users & Roles</h3>
+        <p>Create users from the Users page (admins can create managers and cashiers). Roles control access; only admins can manage users and settings.</p>
+        <h3>Products & Categories</h3>
+        <ol>
+          <li>Go to Products, fill name, SKU, category and price, then Add.</li>
+          <li>Use the search box in Checkout to find items by name or SKU.</li>
+          <li>Products export and import with Backups.</li>
+        </ol>
+        <h3>Customers</h3>
+        <p>Add customers to the Customers page. When checking out, click Select/Add to choose or create a customer for the sale.</p>
+        <h3>Checkout</h3>
+        <ol>
+          <li>Search or tap a product to add to cart.</li>
+          <li>Update quantities using the cart controls, then Complete Sale to record the transaction.</li>
+          <li>Sales are stored locally in IndexedDB and included in backups.</li>
+        </ol>
+        <h3>Backups & Recovery</h3>
+        <p>Use Settings → Export Backup to download a JSON backup. Export can be encrypted with a password. To restore, use Import Backup and provide the password if encrypted.</p>
+        <p>For password recovery, export the Recovery File from Settings and keep it secure. The in-app reset requires answering at least two of the three security questions set at account creation.</p>
+        <h3>PWA & Install</h3>
+        <p>When run from GitHub Pages the browser will offer to install the app. Installing gives a standalone window and better offline caching.</p>
+        <h3>Troubleshooting</h3>
+        <ul>
+          <li>If data disappears after clearing browser storage, restore from your exported backup or recovery file. For stronger persistence, use Settings → Save backup to file (persistent) which writes the database JSON to a file on your disk. That file remains even if the browser clears site data.</li>
+          <li>If the service worker blocks updates, open DevTools → Application → Service Workers and unregister, then reload.</li>
+          <li>If camera scanning fails, ensure the page is served over HTTPS (or localhost) and the browser has camera permission.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="page-about" class="page" style="display:none">
+      <h2>About</h2>
+      <p>OpenPOS — built by: <strong>Tasmon Islam</strong></p>
+      <p>Developer email: <a href="mailto:tasmon@outlook.com">tasmon@outlook.com</a></p>
+      <p>Version: <strong>2.2.0</strong></p>
+      <h3>Technologies used</h3>
+      <ul>
+        <li>Vanilla HTML/CSS/JavaScript (zero-build)</li>
+        <li>IndexedDB for local storage</li>
+        <li>Web Crypto API for hashing and optional encryption</li>
+        <li>Service Worker & Web App Manifest for PWA install</li>
+        <li>File download / import for backups and recovery</li>
+      </ul>
+      <p>License: GNU General Public License v3.0</p>
+    </section>
+  </main>
+
+  <div id="modal" class="modal" style="display:none">
+    <div class="modal-content" id="modal-content"></div>
+    <button id="modal-close">Close</button>
+  </div>
+
+  <script src="db.js"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
