@@ -17,7 +17,9 @@ nav button{background:transparent;border:0;padding:8px 12px;border-radius:8px;co
 nav button:hover{background:rgba(11,118,239,0.06);color:var(--fg)}
 .auth-area{margin-left:auto;display:flex;align-items:center;gap:8px}
 .auth-area button{padding:8px 10px;border-radius:8px;border:1px solid transparent;background:var(--card);cursor:pointer}
-#user-area{position:relative;display:flex;align-items:center;gap:8px;cursor:pointer}
+#user-area{position:relative;display:flex;align-items:center;gap:8px;cursor:pointer;z-index:2000}
+#user-menu{pointer-events:auto;z-index:9999}
+.small-btn{padding:6px 10px;border-radius:8px;background:var(--card);color:var(--fg);border:1px solid rgba(0,0,0,0.06)}
 #user-avatar{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:linear-gradient(180deg,rgba(0,0,0,0.04),transparent);font-size:18px}
 #current-user{padding:6px 8px;border-radius:8px;background:transparent}
 #user-menu{position:absolute;right:0;top:46px;background:var(--card);border-radius:8px;box-shadow:var(--elev);display:flex;flex-direction:column;padding:6px;min-width:160px}

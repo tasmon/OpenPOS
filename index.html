@@ -26,13 +26,13 @@
       <button data-page="about">About</button>
     </nav>
     <div class="auth-area">
-      <div id="user-area" style="display:none">
-      <span id="user-avatar">👤</span>
-      <span id="current-user">—</span>
-      <div id="user-menu" class="dropdown" style="display:none">
-        <button data-action="settings">Settings</button>
-        <button data-action="reset">Reset Password</button>
-        <button data-action="logout">Logout</button>
+      <div id="user-area" style="display:none" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
+            <span id="user-avatar" tabindex="0" aria-hidden="false">👤</span>
+            <span id="current-user" tabindex="0">—</span>
+            <div id="user-menu" class="dropdown" style="display:none" role="menu" aria-label="User menu">
+              <button data-action="settings" role="menuitem">Settings</button>
+              <button data-action="reset" role="menuitem">Reset Password</button>
+              <button data-action="logout" role="menuitem">Logout</button>
       </div>
       </div>
       <button id="login-btn">Login</button>
@@ -104,6 +104,10 @@
           <div class="cart-actions">
             <label>Customer: <span id="selected-customer">None</span></label>
             <button id="select-customer">Select/Add</button>
+            <div class="total">Subtotal: <span id="cart-subtotal">0.00</span></div>
+            <label>Discount %: <input id="cart-discount" type="number" min="0" max="100" step="0.01" value="0" style="width:80px"></label>
+            <div>Discount: <span id="cart-discount-amount">0.00</span></div>
+            <div>Tax: <span id="cart-tax">0.00</span></div>
             <div class="total">Total: <span id="cart-total">0.00</span></div>
             <button id="complete-sale">Complete Sale</button>
           </div>
@@ -115,6 +119,7 @@
     <section id="page-products" class="page" style="display:none">
       <h2>Products</h2>
       <form id="product-form">
+        <input type="hidden" name="id" id="product-id">
         <input name="name" placeholder="Name" required>
         <input name="code" placeholder="SKU/code">
         <input name="category" placeholder="Category">
@@ -123,6 +128,7 @@
       </form>
       <div class="csv-tools">
         <button id="import-products-csv">Import Products CSV</button>
+        <button id="export-products-csv">Export Products CSV</button>
         <a href="products-sample.csv" download>Download sample CSV</a>
         <input type="file" id="products-csv-file" accept="text/csv" style="display:none">
       </div>
@@ -133,6 +139,7 @@
     <section id="page-customers" class="page" style="display:none">
       <h2>Customers</h2>
       <form id="customer-form">
+        <input type="hidden" name="id" id="customer-id">
         <input name="name" placeholder="Name" required>
         <input name="phone" placeholder="Phone">
         <button type="submit">Add Customer</button>
@@ -228,6 +235,7 @@
           <option value="PLN">PLN (zł)</option>
           <option value="CHF">CHF (CHF)</option>
         </select></label>
+      <label>Tax rate (VAT %) : <input id="tax-rate" type="number" min="0" max="100" step="0.01" value="0" style="width:80px"></label>
       <div class="autosave-row">
         <label class="autosave-label">Auto Save: <input type="checkbox" id="autosave-enable"></label>
         <label class="autosave-note">Enable persistent save — Interval (minutes): <input id="autosave-interval" type="number" min="1" value="10" style="width:80px"></label>
@@ -298,9 +306,10 @@
     <!-- About -->
     <section id="page-about" class="page" style="display:none">
       <h2>About</h2>
-      <p>OpenPOS — built by: <strong>Tasmon Islam</strong></p>
-      <p>Developer email: <a href="mailto:tasmon@outlook.com">tasmon@outlook.com</a></p>
-      <p>Version: <strong>2.2.0</strong></p>
+      <p>OpenPOS - Free OpenSource POS,</p>
+      <p>Developed by: <strong>Tasmon Islam</strong></p>
+      <p>Email: <a href="mailto:tasmon@outlook.com">tasmon@outlook.com</a></p>
+      <p>Version: <strong>3.0.0</strong></p>
       <h3>Technologies used</h3>
       <ul>
         <li>Vanilla HTML/CSS/JavaScript (zero-build)</li>
