@@ -2,6 +2,9 @@
 
 OpenPOS is a free, open source Point-of-Sale (POS) web application you can run from a folder or host on GitHub Pages/Web server. It works offline, supports multiple users and roles, receipts and reports, barcode scanning, and persistent disk backups so your data survives clearing browser storage.
 
+<img width="1917" height="942" alt="image" src="https://github.com/user-attachments/assets/0032f014-514d-4925-826a-29f7c8be95c7" />
+
+
 ## Key features
 - Zero-build: run by opening index.html (or host on GitHub Pages)
 - Offline-first: service worker and PWA install support
@@ -28,6 +31,5 @@ All data remains on your device. Passwords and security answers are hashed using
 
 ## License
 OpenPOS is released under the GNU General Public License v3.0 (GPL-3.0).
-
 
 If you found OpenPOS useful or want to contribute, open an issue or pull request on the repository. Enjoy!
