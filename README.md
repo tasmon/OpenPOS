@@ -34,7 +34,7 @@ While it may encounter errors when hosted on a live web server, you can always m
 2. Open `index.html` in a modern browser (Chrome/Edge recommended for full features).
 3. On first run create an Admin account. The app will guide you through setup.
 4. To make backups that survive clearing browser data: use Settings → Choose AppData file (or Export Backup). On file:// runs the app will try to load `AppData.json` from the same folder automatically.
-5. To install the app on your device, host the folder on GitHub Pages or use the browser "Install" prompt when available.
+5. To install the app on your device, host the folder on Web Server or use the browser "Install" prompt when available.
 
 ## Backups & persistence
 - The app stores data in your browser (IndexedDB). If you clear browser data you can restore from an exported backup or an AppData.json file saved to disk.
